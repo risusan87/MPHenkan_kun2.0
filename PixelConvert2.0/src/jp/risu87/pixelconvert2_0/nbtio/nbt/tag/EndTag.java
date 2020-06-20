@@ -1,4 +1,6 @@
-package jp.risu87.pixelconvert2_0.nbtio.tag;
+package jp.risu87.pixelconvert2_0.nbtio.nbt.tag;
+
+import jp.risu87.pixelconvert2_0.nbtio.nbt.Tag;
 
 public class EndTag extends Tag {
 	public EndTag() {

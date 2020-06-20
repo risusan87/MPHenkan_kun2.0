@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.zip.GZIPOutputStream;
 
-import jp.risu87.pixelconvert2_0.nbtio.tag.NBT;
+import jp.risu87.pixelconvert2_0.nbtio.nbt.NBT;
 
 public class NBTOutputStream extends ByteArrayOutputStream {
 	/**

@@ -1,7 +1,9 @@
-package jp.risu87.pixelconvert2_0.nbtio.tag;
+package jp.risu87.pixelconvert2_0.nbtio.nbt;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.risu87.pixelconvert2_0.nbtio.nbt.tag.CompoundTag;
 
 public class NBT extends CompoundTag {
 	private String format = null;
