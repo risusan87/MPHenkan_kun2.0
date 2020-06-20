@@ -3,6 +3,10 @@ package jp.risu87.pixelconvert2_0.nbtio.nbt.tag;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * The super class of all known NBT tag types
+ * @author risusan87
+ */
 public abstract class Tag {
 	
 	public String Tag_name;
@@ -24,7 +28,7 @@ public abstract class Tag {
 	protected abstract type setType();
 	protected abstract Function<Tag, byte[]> settoByteArrayFunction();
 	
-	protected static interface ITag {
+	protected static interface TagCompound {
 		public void addTag(Tag par1tag);
 		public void removeTag(Tag par1tag);
 		public void replaceTag(Tag par1src, Tag par2dst);
