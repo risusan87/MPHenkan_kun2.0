@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * The super class of all known NBT tag types
+ * The super class of all known NBT tag types,
+ * supporting add, edit, and delete(only for compound tags) functions
  * @author risusan87
  */
 public abstract class Tag {
@@ -26,12 +27,29 @@ public abstract class Tag {
 	}
 	
 	protected abstract type setType();
-	protected abstract Function<Tag, byte[]> settoByteArrayFunction();
+	protected abstract Function<Tag, byte[]> _toByteArrayFunction();
 	
+	/**
+	 * Returns corresponding content of this tag, allowing to edit its data.
+	 * @return 
+	 */
+	public abstract <T>T tagComponent();
+	
+	/**
+	 * Interface to be implemented on compound attributed tags
+	 * @author risusan87
+	 */
 	protected static interface TagCompound {
-		public void addTag(Tag par1tag);
-		public void removeTag(Tag par1tag);
-		public void replaceTag(Tag par1src, Tag par2dst);
+		public int getElementCount();
+	}
+	
+	/**
+	 * Interface to be implemented on array attributed tags
+	 * @author risusan87
+	 */
+	protected static interface TagArray {
+		public int arraySize();
+		public int primitiveSize();
 	}
 	
 	/**
@@ -39,7 +57,72 @@ public abstract class Tag {
 	 * @return byte array of NBT tag
 	 */
 	public byte[] toByteArray() {
-		return this.settoByteArrayFunction().apply(this);
+		return this._toByteArrayFunction().apply(this);
+	}
+	
+	/**
+	 * Returns byte size of this whole tag allocated
+	 * @return byte size
+	 */
+	public int getAllocatedByteSize() {
+		int size = 3 + this.Tag_name.length();
+		switch (this.Type) {
+			case END: case BYTE: return size + 1;
+			case SHORT: return size + 2;
+			case INT: case FLOAT: return size + 4;
+			case LONG: case DOUBLE: return size + 8;
+			case STRING: return size + 2 + ((StringTag)this).tagComponent().length();
+			case BYTE_ARRAY: case INT_ARRAY: case LONG_ARRAY:
+				int balements = ((TagArray)this).arraySize();
+				int allobyte = ((TagArray)this).primitiveSize();
+				return size + (balements * allobyte) + 4;
+			case LIST:
+				List<Tag> list_list = this.tagComponent();
+				int list_contentByte = 5;
+				for (Tag t : list_list)
+					list_contentByte += t.getAllocatedByteSize() - size;
+				return size + list_contentByte;
+			case COMPOUND:
+				List<Tag> comp_list = this.tagComponent();
+				int comp_contentByte = 1;
+				for (Tag t : comp_list)
+					comp_contentByte += t.getAllocatedByteSize();
+				return size + comp_contentByte;
+					
+			default: return -1;
+		}
+	}
+	
+	/**
+	 * Returns byte size of this whole tag allocated, regardless tag id and name
+	 * @return byte size
+	 */
+	public int getSizelessAllocatedByteSize() {
+		switch (this.Type) {
+			case END: case BYTE: return 1;
+			case SHORT: return 2;
+			case INT: case FLOAT: return 4;
+			case LONG: case DOUBLE: return 8;
+			case STRING: return 2 + ((StringTag)this).tagComponent().length();
+			case BYTE_ARRAY: case INT_ARRAY: case LONG_ARRAY:
+				int balements = ((TagArray)this).arraySize();
+				int allobyte = ((TagArray)this).primitiveSize();
+				return (balements * allobyte) + 4;
+			case LIST:
+				List<Tag> list_list = this.tagComponent();
+				int list_contentByte = 5;
+				for (Tag t : list_list)
+					list_contentByte += t.getSizelessAllocatedByteSize();
+				return list_contentByte;
+			case COMPOUND:
+				List<Tag> comp_list = this.tagComponent();
+				int comp_contentByte = 1;
+				for (Tag t : comp_list)
+					comp_contentByte += t.getSizelessAllocatedByteSize();
+				return comp_contentByte;
+					
+			default: return -1;
+		}
 	}
 	
 	/**
