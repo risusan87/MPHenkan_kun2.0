@@ -54,4 +54,10 @@ public class IntArrayTag extends Tag implements Tag.TagArray {
 		return 4;
 	}
 
+	@Override
+	protected byte getTagID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
