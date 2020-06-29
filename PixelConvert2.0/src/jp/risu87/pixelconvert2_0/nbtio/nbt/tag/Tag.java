@@ -28,6 +28,7 @@ public abstract class Tag {
 	
 	protected abstract type setType();
 	protected abstract Function<Tag, byte[]> _toByteArrayFunction();
+	protected abstract byte getTagID();
 	
 	/**
 	 * Returns corresponding content of this tag, allowing to edit its data.
@@ -60,6 +61,14 @@ public abstract class Tag {
 		return this._toByteArrayFunction().apply(this);
 	}
 	
+	/**
+	 * Returns allocated byte size depending on if used for list or not
+	 * @return
+	 */
+	public int getCorrespondedAllocatedByteSize() {
+		return this.Tag_name == null ? this.getSizelessAllocatedByteSize()
+				: this.getAllocatedByteSize();
+	}
 	/**
 	 * Returns byte size of this whole tag allocated
 	 * @return byte size
@@ -109,7 +118,8 @@ public abstract class Tag {
 				int allobyte = ((TagArray)this).primitiveSize();
 				return (balements * allobyte) + 4;
 			case LIST:
-				List<Tag> list_list = this.tagComponent();
+				@SuppressWarnings("unchecked")
+				List<? extends Tag> list_list = (List<? extends Tag>) this.tagComponent();
 				int list_contentByte = 5;
 				for (Tag t : list_list)
 					list_contentByte += t.getSizelessAllocatedByteSize();
