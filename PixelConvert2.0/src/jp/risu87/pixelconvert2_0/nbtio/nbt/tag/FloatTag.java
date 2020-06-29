@@ -11,6 +11,13 @@ public class FloatTag extends Tag {
 
 	private float f;
 	
+	/**
+	 * Creates new tag of float.
+	 * give null as its name to declare as use for list
+	 * 
+	 * @param par1name - tag name
+	 * @param par2setbyte - byte to be set
+	 */
 	public FloatTag(String par1name, float par2setfloat) {
 		super(par1name);
 		this.f = par2setfloat;
@@ -36,6 +43,11 @@ public class FloatTag extends Tag {
 	@Override
 	public Float tagComponent() {
 		return this.f;
+	}
+
+	@Override
+	protected byte getTagID() {
+		return (byte)0x05;
 	}
 
 }
