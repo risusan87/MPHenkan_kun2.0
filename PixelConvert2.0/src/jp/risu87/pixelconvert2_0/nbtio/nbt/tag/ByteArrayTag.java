@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 /**
  * One of nbt tags that holds ByteArray
+ * 
  * @author risusan87
  */
 public class ByteArrayTag extends Tag implements Tag.TagArray {
@@ -68,8 +69,7 @@ public class ByteArrayTag extends Tag implements Tag.TagArray {
 
 	@Override
 	protected byte getTagID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (byte)0x07;
 	}
 	
 }
