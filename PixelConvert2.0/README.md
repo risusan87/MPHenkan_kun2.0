@@ -9,5 +9,5 @@ All the project can be dowloaded in schematic format from the folder called "pro
 The generator however is not for release but can be downloaded soon thus you may need to have a liitle bit of knowledge in CUI, the commandline user interface to use
 
 ## NBT tag reading library
-I know there is tons of project done on reading minecraft NBT tag, yet as part of my practice in programming, I decided to make one on my own.
+I know there is tons of project done on reading minecraft NBT tag, but I build one on my own.
 the classes in jp.risu87.pixelconvert_2.0.nbtio is totally modular and migratable as library on other projects. The library provides Input and output stream for NBT tag allowing developpers to read and edit NBT tags.
