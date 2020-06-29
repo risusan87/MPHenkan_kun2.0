@@ -4,7 +4,8 @@ import java.nio.ByteBuffer;
 import java.util.function.Function;
 
 /**
- *One of nbt tags. Holds int
+ * One of nbt tags. Holds int
+ *
  * @author risusan87
  */
 public class IntTag extends Tag {
