@@ -33,7 +33,8 @@ public abstract class Tag {
 	protected abstract byte getTagID();
 	
 	/**
-	 * Returns corresponding variable of this tag, allowing to edit its data.
+	 * Returns corresponding variable of this tag,
+	 * allowing to edit its data.
 	 * @return 
 	 */
 	public abstract <T>T tagComponent();
@@ -59,23 +60,24 @@ public abstract class Tag {
 	 * Converts this tag into unzipped NBT byte form.
 	 * @return byte array of NBT tag
 	 */
-	public byte[] toByteArray() {
+	public final byte[] toByteArray() {
 		return this._toByteArrayFunction().apply(this);
 	}
 	
 	/**
-	 * Returns allocated byte size depending on if used for list or not
-	 * @return
+	 * Returns allocated byte size depending on whether used as list or tag
+	 * @return byte size
 	 */
-	public int getCorrespondedAllocatedByteSize() {
+	public final int getCorrespondedAllocatedByteSize() {
 		return this.Tag_name == null ? this.getSizelessAllocatedByteSize()
 				: this.getAllocatedByteSize();
 	}
+	
 	/**
 	 * Returns byte size of this whole tag allocated
 	 * @return byte size
 	 */
-	public int getAllocatedByteSize() {
+	public final int getAllocatedByteSize() {
 		int size = 3 + this.Tag_name.length();
 		switch (this.Type) {
 			case END: case BYTE: return size + 1;
@@ -108,7 +110,7 @@ public abstract class Tag {
 	 * Returns byte size of this whole tag allocated, regardless tag id and name
 	 * @return byte size
 	 */
-	public int getSizelessAllocatedByteSize() {
+	public final int getSizelessAllocatedByteSize() {
 		switch (this.Type) {
 			case END: case BYTE: return 1;
 			case SHORT: return 2;
@@ -138,8 +140,8 @@ public abstract class Tag {
 	}
 	
 	/**
-	 * Conditions are if given object is an instance of {@code Tag}, their {@code Tag.type} matches,
-	 * and their {@code Tag.Tag_name} matches.
+	 * Conditions are if given object is an instance of {@code nbt.Tag}, their {@code Tag.type},
+	 * data, and their {@code Tag.Tag_name} matches.
 	 */
 	@Override
 	public boolean equals(Object obj) {
