@@ -29,5 +29,11 @@ public class EndTag extends Tag {
 	public Byte tagComponent() {
 		return (byte)0x00;
 	}
+
+	@Override
+	protected byte getTagID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }
