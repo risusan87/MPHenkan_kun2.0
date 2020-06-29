@@ -1,5 +1,7 @@
 package jp.risu87.pixelconvert2_0.nbtio.nbt.tag;
 
+import java.util.function.Function;
+
 /**
  * 
  * tagID:02
@@ -18,6 +20,24 @@ public class LongTag extends Tag {
 
 	@Override
 	public byte[] toByteArray() {
+		return null;
+	}
+
+	@Override
+	protected Function<Tag, byte[]> _toByteArrayFunction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected byte getTagID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public <T> T tagComponent() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
