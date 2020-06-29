@@ -3,35 +3,37 @@ package jp.risu87.pixelconvert2_0.nbtio.nbt.tag;
 import java.util.List;
 import java.util.function.Function;
 
+import javax.annotation.Nullable;
+
 /**
- * The super class of all known NBT tag types,
- * supporting add, edit, and delete(only for compound tags) functions
+ * The super class of all known NBT tag types.
+ * 
  * @author risusan87
  */
 public abstract class Tag {
 	
-	public String Tag_name;
-	protected enum type {
+	public String Tag_name = null;
+	protected enum tagID {
 		END, BYTE, SHORT, INT, LONG, FLOAT, DOUBLE, BYTE_ARRAY,
 		STRING, LIST, COMPOUND, INT_ARRAY, LONG_ARRAY
 	}
-	public final type Type;
+	public final tagID Type;
 	
 	/**
 	 * Creates a new tag with specified name
 	 * @param par1name - name of the tag
 	 */
-	protected Tag(String par1name) {
+	protected Tag(@Nullable String par1name) {
 		this.Tag_name = par1name;
 		this.Type = this.setType();
 	}
 	
-	protected abstract type setType();
+	protected abstract tagID setType();
 	protected abstract Function<Tag, byte[]> _toByteArrayFunction();
 	protected abstract byte getTagID();
 	
 	/**
-	 * Returns corresponding content of this tag, allowing to edit its data.
+	 * Returns corresponding variable of this tag, allowing to edit its data.
 	 * @return 
 	 */
 	public abstract <T>T tagComponent();
