@@ -6,4 +6,4 @@ Converts images into pixel art on map in Minecraft, in schematic form, which use
 All the project can be dowloaded in schematic format from the folder called "project"
 
 ## Generator
-The generator however is not for release but can be downloaded soon thus you may need to know a liitle bit of knowledge in CUI to use
+The generator however is not for release but can be downloaded soon thus you may need to have a liitle bit of knowledge in CUI to use
