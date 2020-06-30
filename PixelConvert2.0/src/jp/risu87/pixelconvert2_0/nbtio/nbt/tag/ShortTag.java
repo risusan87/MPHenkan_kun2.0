@@ -3,7 +3,6 @@ package jp.risu87.pixelconvert2_0.nbtio.nbt.tag;
 import java.nio.ByteBuffer;
 import java.util.function.Function;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -13,7 +12,7 @@ import javax.annotation.Nullable;
  */
 public class ShortTag extends Tag {
 	
-	private short s;
+	private Short s;
 	/**
 	 * Creates new tag of short.
 	 * give null as its name to declare as use for list
@@ -21,9 +20,12 @@ public class ShortTag extends Tag {
 	 * @param par1name - tag name
 	 * @param par2setshort - short to be set
 	 */
-	public ShortTag(@Nullable String par1name, @Nonnull short par2setshort) {
+	public ShortTag(@Nullable String par1name, Short par2setshort) {
 		super(par1name);
-		this.s = par2setshort;
+		if (par2setshort != null)
+			this.s = par2setshort;
+		else 
+			this.isNull = true;
 	}
 
 	@Override
@@ -35,10 +37,18 @@ public class ShortTag extends Tag {
 	protected Function<Tag, byte[]> _toByteArrayFunction() {
 		return tag -> {
 			ByteBuffer nbt = ByteBuffer.allocate(getCorrespondedAllocatedByteSize());
-			if (tag.Tag_name != null)
-				nbt.put(tag.getTagID())
-				.put(StringTag.toNBTByteTag(tag.Tag_name));
-			nbt.putShort((short)tag.tagComponent());
+			if (tag.Tag_name != null) {
+				nbt.put(tag.getTagID());
+				if (tag.Tag_name.equals(""))
+					nbt.putInt(0x00)
+					.put(new EndTag().toByteArray());
+				else
+					nbt.put(StringTag.toNBTByteTag(tag.Tag_name));
+			}
+			if (!tag.isNull)
+				nbt.putShort((short)tag.tagComponent());
+			else
+				nbt.put(new EndTag().toByteArray());
 			return nbt.array();
 		};
 	}

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -20,14 +19,16 @@ public class ByteArrayTag extends Tag implements Tag.TagArray {
 	/**
 	 * Creates new tag of byte array.
 	 * give null as its name to declare as use for list
+	 * 
 	 * @param par1name - tag name
 	 * @param par1b - initial data to be contained
 	 */
-	public ByteArrayTag(@Nullable String par1name, @Nonnull byte[] par1b) {
+	public ByteArrayTag(@Nullable String par1name, byte[] par1b) {
 		super(par1name);
 		this.barray = new ArrayList<Byte>();
-		for (byte b : par1b)
-			this.barray.add(b);
+		if (par1b != null)
+			for (byte b : par1b)
+				this.barray.add(b);
 	}
 
 	@Override
@@ -40,13 +41,15 @@ public class ByteArrayTag extends Tag implements Tag.TagArray {
 		return tag -> {
 			ByteBuffer nbt = ByteBuffer.allocate(tag.getCorrespondedAllocatedByteSize());
 			if (tag.Tag_name != null)
-				nbt.put((byte)0x07)
+				nbt.put(tag.getTagID())
 				.put(StringTag.toNBTByteTag(tag.Tag_name));
-			nbt.putInt(barray.size());
-			byte[] b = new byte[barray.size()];
-			for (int i = 0; i < barray.size(); i++)
-				b[i] = barray.get(i);
-			nbt.put(b);
+			List<Byte> l = ((ByteArrayTag)tag).tagComponent();
+			nbt.putInt(l.size());
+			if (l.size() == 0)
+				nbt.put(new EndTag().toByteArray());
+			else
+				for (byte b : l)
+					nbt.put(b);
 			return nbt.array();
 		};
 	}
@@ -64,7 +67,7 @@ public class ByteArrayTag extends Tag implements Tag.TagArray {
 
 	@Override
 	public int primitiveSize() {
-		return 1;
+		return 0x01;
 	}
 
 	@Override

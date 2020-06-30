@@ -25,8 +25,12 @@ public class CompoundTag extends Tag implements Tag.TagCompound {
 	 */
 	public CompoundTag(@Nullable String par1name) {
 		super(par1name);
-		if (this.Tag_name == null || this.Tag_name.equals(""))
+		if (this.Tag_name.equals(""))
 			this.Tag_name = "(unnamed)";
+		else if (this.Tag_name == null) {
+			this.Tag_name = "";
+			this.isNull = true;
+		}
 		this.tags = new ArrayList<Tag>();
 	}
 	
@@ -38,13 +42,17 @@ public class CompoundTag extends Tag implements Tag.TagCompound {
 	@Override
 	protected Function<Tag, byte[]> _toByteArrayFunction() {
 		return tag -> {
-			ByteBuffer bb = ByteBuffer.allocate(tag.getAllocatedByteSize());
-			bb.put(tag.getTagID())
-			.put(StringTag.toNBTByteTag(tag.Tag_name));
+			ByteBuffer nbt = ByteBuffer.allocate(tag.getAllocatedByteSize());
+			nbt.put(tag.getTagID());
+			if (tag.Tag_name.equals(""))
+				nbt.putInt(0x00)
+				.put(new EndTag().toByteArray());
+			else
+				nbt.put(StringTag.toNBTByteTag(tag.Tag_name));
 			for (Tag t : ((CompoundTag)tag).tags)
-				bb.put(t.toByteArray());
-			bb.put(new EndTag().toByteArray());
-			return bb.array();
+				nbt.put(t.toByteArray());
+			nbt.put(new EndTag().toByteArray());
+			return nbt.array();
 		};
 	}
 
